@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Skontaktuj się z Biurem Nieruchomości Broker 360 w sprawie sprzedaży, zakupu lub wynajmu nieruchomości."
+    >
+
+    <title>Kontakt – Broker 360</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'properties/css/style.css' %}"
+    >
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a
+                class="logo-link"
+                href="/"
+                aria-label="Broker 360 – strona główna"
+            >
+                <img
+                    class="logo"
+                    src="{% static 'properties/images/logo-broker360.jpg' %}"
+                    alt="Broker 360 – Biuro Nieruchomości"
+                >
+            </a>
+
+            <a href="/">Strona główna</a>
+            <a href="/#oferty">Oferty</a>
+            <a href="/#uslugi">Usługi</a>
+            <a href="/#o-mnie">O mnie</a>
+            <a href="{% url 'contact:form' %}">Kontakt</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-section">
+            <h1>Skontaktuj się ze mną</h1>
+
+            <p>
+                Napisz, w czym mogę Ci pomóc, albo skontaktuj się
+                ze mną telefonicznie.
+            </p>
+
+            <p class="phone-number">
+                Telefon:
+                <a href="tel:+48724311737">
+                    +48 724 311 737
+                </a>
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit">
+                    Wyślij wiadomość
+                </button>
+                <p class="privacy-information">
+    Wysyłając formularz, potwierdzasz zapoznanie się z
+    <a href="{% url 'contact:privacy_policy' %}">
+        polityką prywatności
+    </a>.
+</p>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Broker 360 – Biuro Nieruchomości</p>
+
+        <p class="footer-privacy-link">
+            <a href="{% url 'contact:privacy_policy' %}">
+                Polityka prywatności
+            </a>
+        </p>
+    </footer>
+</body>
+</html>

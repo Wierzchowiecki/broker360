@@ -1,0 +1,28 @@
+# Środowiska wirtualne
+.venv/
+venv/
+env/
+
+# Pliki tymczasowe Pythona
+__pycache__/
+*.py[cod]
+
+# Ustawienia PyCharma
+.idea/
+
+# Dane poufne
+.env
+
+# Lokalna baza danych
+db.sqlite3
+*.sqlite3
+
+# Zdjęcia dodawane przez panel administratora
+media/
+
+# Pliki statyczne przygotowywane dla serwera
+staticfiles/
+
+# Pliki systemu Windows
+Thumbs.db
+Desktop.ini

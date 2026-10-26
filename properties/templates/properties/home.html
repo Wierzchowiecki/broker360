@@ -1,0 +1,505 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Broker 360 – Biuro Nieruchomości</title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'properties/css/style.css' %}"
+    >
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a class="logo-link" href="/">
+                <img
+                    class="logo"
+                    src="{% static 'properties/images/logo-broker360.jpg' %}"
+                    alt="Broker 360 – Biuro Nieruchomości"
+                >
+            </a>
+
+            <a href="/">Strona główna</a>
+            <a href="#oferty">Oferty</a>
+            <a href="#uslugi">Usługi</a>
+            <a href="#o-mnie">O mnie</a>
+            <a href="{% url 'contact:form' %}">Kontakt</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>
+                Witamy na stronie Biura Nieruchomości Broker 360!
+            </h1>
+
+            <p>
+                Pomagam bezpiecznie sprzedawać, kupować i wynajmować
+                nieruchomości w Poznaniu i okolicach.
+            </p>
+        </section>
+
+        <section id="oferty">
+            <h2>Aktualne oferty</h2>
+
+            <div class="property-grid">
+                {% for property in properties %}
+                    <article class="property-card">
+                        {% with main_image=property.images.first %}
+                            {% if main_image %}
+                                <a
+                                    class="property-card-image"
+                                    href="{% url 'property_detail' slug=property.slug %}"
+                                >
+                                    <img
+                                        src="{{ main_image.image.url }}"
+                                        alt="{% if main_image.description %}{{ main_image.description }}{% else %}{{ property.title }}{% endif %}"
+                                    >
+                                </a>
+                            {% else %}
+                                <a
+                                    class="property-card-no-image"
+                                    href="{% url 'property_detail' slug=property.slug %}"
+                                >
+                                    Zdjęcia pojawią się wkrótce
+                                </a>
+                            {% endif %}
+                        {% endwith %}
+
+                        <div class="property-card-content">
+                            <p class="property-card-type">
+                                {{ property.get_offer_type_display }}
+                                ·
+                                {{ property.get_property_type_display }}
+                            </p>
+
+                            <h3>
+                                <a href="{% url 'property_detail' slug=property.slug %}">
+                                    {{ property.title }}
+                                </a>
+                            </h3>
+
+                            <p>
+                                {{ property.city }}
+
+                                {% if property.district %}
+                                    – {{ property.district }}
+                                {% endif %}
+                            </p>
+
+                            <div class="property-card-details">
+                                <span>
+                                    {{ property.area|floatformat:-2 }} m²
+                                </span>
+
+                                {% if property.rooms %}
+                                    <span>
+                                        Liczba pokoi: {{ property.rooms }}
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <p class="property-card-price">
+                                {{ property.price|floatformat:0 }} zł
+                            </p>
+
+                            <a
+                                class="property-card-button"
+                                href="{% url 'property_detail' slug=property.slug %}"
+                            >
+                                Zobacz ofertę
+                            </a>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p>
+                        Obecnie przygotowujemy nowe oferty nieruchomości.
+                        Zapraszamy wkrótce.
+                    </p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="uslugi">
+            <div class="services-content">
+                <h2>Dlaczego warto współpracować z Broker 360?</h2>
+
+                <p>
+                    Niezależnie od tego, czy szukasz mieszkania, domu,
+                    działki lub lokalu, czy planujesz sprzedaż swojej
+                    nieruchomości, w Broker 360 możesz liczyć na wsparcie
+                    na każdym etapie.
+                </p>
+
+                <p>
+                    Zakup nieruchomości to często jedna z najważniejszych
+                    decyzji finansowych w życiu. Z kolei jej sprzedaż
+                    wymaga odpowiedniego przygotowania, znajomości rynku,
+                    skutecznego marketingu, uporządkowania dokumentacji
+                    i czasu.
+                </p>
+
+                <p>
+                    Prowadząc Broker 360 Biuro Nieruchomości, współpracuję
+                    zarówno z właścicielami, którzy chcą skutecznie sprzedać
+                    swoją nieruchomość, jak i z osobami poszukującymi
+                    odpowiedniego mieszkania, domu, działki czy lokalu.
+                </p>
+
+                <p>
+                    Pomagam również w sprawach związanych z dokumentacją
+                    i formalnościami.
+                </p>
+
+                <p>
+                    Co ważne – od pierwszego kontaktu aż do finalizacji
+                    transakcji współpracujesz bezpośrednio ze mną.
+                    Osobiście zajmuję się przygotowaniem oferty,
+                    prezentacjami, marketingiem, kontaktem z klientami,
+                    negocjacjami, dokumentacją oraz koordynacją całego
+                    procesu.
+                </p>
+
+                <h3>
+                    Pomagam wybrać nieruchomość, a nie tylko ją znaleźć
+                </h3>
+
+                <p>
+                    Nie każda nieruchomość będzie odpowiednia dla każdego
+                    klienta.
+                </p>
+
+                <p>
+                    Dlatego zanim rozpocznę poszukiwania, chcę dobrze
+                    poznać Twoje potrzeby – lokalizację, budżet, metraż,
+                    liczbę pokoi, sposób finansowania oraz to, co jest
+                    dla Ciebie naprawdę ważne.
+                </p>
+
+                <p>
+                    Innej nieruchomości będzie potrzebowała rodzina
+                    szukająca miejsca na wiele lat, innej osoba kupująca
+                    swoje pierwsze mieszkanie, a jeszcze innej inwestor
+                    poszukujący nieruchomości pod wynajem.
+                </p>
+
+                <h3>Pomagam w negocjacjach</h3>
+
+                <p>
+                    Zakup lub sprzedaż nieruchomości często wiąże się
+                    z negocjacjami dotyczącymi nie tylko ceny, ale również
+                    terminu, wyposażenia czy innych warunków transakcji.
+                </p>
+
+                <p>
+                    Pomagam w prowadzeniu rozmów i negocjacji, zawsze mając
+                    na uwadze interes klienta, którego reprezentuję.
+                </p>
+
+                <h3>Bezpieczeństwo, dokumentacja i formalności</h3>
+
+                <p>
+                    Zakup lub sprzedaż nieruchomości wiążą się
+                    z dokumentami, terminami, wizytami w urzędach oraz
+                    wieloma innymi formalnościami.
+                </p>
+
+                <p>
+                    Pomagam ustalić, jakie dokumenty są potrzebne w danej
+                    transakcji, wspieram w ich skompletowaniu oraz czuwam
+                    nad terminami i kolejnymi etapami całego procesu.
+                </p>
+
+                <p>
+                    Zajmuję się koordynacją formalności i – w zakresie,
+                    w jakim jest to możliwe – kontaktuję się z urzędami,
+                    spółdzielniami, wspólnotami mieszkaniowymi, zarządcami
+                    nieruchomości, kancelariami notarialnymi oraz innymi
+                    instytucjami uczestniczącymi w transakcji.
+                </p>
+
+                <p>
+                    Jeżeli dana sprawa wymaga osobistego działania
+                    właściciela, udzielenia pełnomocnictwa albo pomocy
+                    specjalisty, dokładnie wyjaśniam, co należy zrobić,
+                    i pomagam odpowiednio przygotować dalsze kroki.
+                </p>
+
+                <p>
+                    Dzięki temu nie musisz samodzielnie zastanawiać się,
+                    od czego zacząć, gdzie się udać i jakie dokumenty
+                    przygotować. Prowadzę Cię przez cały proces krok
+                    po kroku.
+                </p>
+
+                <h2>
+                    Sprzedajesz nieruchomość? Zadbam o to, żeby została
+                    dobrze przygotowana i zauważona
+                </h2>
+
+                <p>
+                    W przypadku sprzedaży nieruchomości samo zamieszczenie
+                    ogłoszenia na portalu to dla mnie zdecydowanie za mało.
+                </p>
+
+                <p>
+                    W Broker 360 przygotowuję nieruchomość do sprzedaży,
+                    dbam o jej profesjonalną prezentację i aktywnie
+                    prowadzę działania marketingowe – przede wszystkim
+                    w mediach społecznościowych.
+                </p>
+
+                <h3>Home staging – pierwsze wrażenie ma znaczenie</h3>
+
+                <p>
+                    Kupujący bardzo często już po kilku sekundach oglądania
+                    zdjęć decyduje, czy chce dowiedzieć się więcej
+                    o nieruchomości.
+                </p>
+
+                <p>
+                    Dlatego odpowiednie przygotowanie mieszkania lub domu
+                    jest tak ważne.
+                </p>
+
+                <p>
+                    Home staging nie musi oznaczać kosztownego remontu.
+                    Czasami wystarczy uporządkowanie przestrzeni,
+                    odpowiednie ustawienie mebli, poprawa oświetlenia
+                    lub zastosowanie kilku dodatków, aby wnętrze wyglądało
+                    znacznie atrakcyjniej.
+                </p>
+
+                <p>
+                    Chodzi o to, aby pokazać potencjał nieruchomości
+                    i sprawić, żeby kupujący mógł wyobrazić sobie siebie
+                    w tym miejscu.
+                </p>
+
+                <h3>Profesjonalna prezentacja nieruchomości</h3>
+
+                <p>
+                    Dobre zdjęcia i odpowiednia prezentacja mają ogromne
+                    znaczenie, ponieważ to właśnie na ich podstawie
+                    potencjalny kupujący często podejmuje decyzję,
+                    czy zainteresować się ofertą.
+                </p>
+
+                <p>
+                    Dbam o to, aby nieruchomość została zaprezentowana
+                    atrakcyjnie, ale jednocześnie zgodnie z jej
+                    rzeczywistym charakterem i największymi atutami.
+                </p>
+
+                <h3>Filmy nieruchomości i ujęcia z drona</h3>
+
+                <p>
+                    Jednym z ważnych elementów mojej pracy są filmy
+                    prezentujące nieruchomości oraz ujęcia wykonywane
+                    dronem.
+                </p>
+
+                <p>
+                    Wideo pozwala pokazać nieruchomość w sposób, którego
+                    nie da się osiągnąć wyłącznie za pomocą zdjęć.
+                    Potencjalny kupujący może lepiej zobaczyć układ
+                    pomieszczeń, przestrzeń i charakter nieruchomości.
+                </p>
+
+                <p>
+                    Dron wykorzystuję szczególnie przy sprzedaży domów,
+                    działek i nieruchomości, w których duże znaczenie
+                    ma lokalizacja oraz otoczenie. Mogę dzięki temu
+                    pokazać działkę, ogród, sąsiedztwo, pobliskie tereny
+                    zielone, zabudowę czy dojazd.
+                </p>
+
+                <p>
+                    Materiały z drona nadal nie są standardem w marketingu
+                    wielu nieruchomości, dlatego wykorzystuję je jako
+                    dodatkowe narzędzie pozwalające wyróżnić ofertę
+                    i zaprezentować ją z zupełnie innej perspektywy.
+                </p>
+
+                <h3>Intensywny marketing w mediach społecznościowych</h3>
+
+                <p>
+                    Nie ograniczam sprzedaży wyłącznie do publikacji
+                    ogłoszenia na portalach nieruchomości.
+                </p>
+
+                <p>
+                    Aktywnie promuję nieruchomości również w mediach
+                    społecznościowych, wykorzystując zdjęcia, filmy,
+                    rolki oraz inne materiały przygotowane dla konkretnej
+                    oferty.
+                </p>
+
+                <p>
+                    Dzięki temu mogę dotrzeć także do osób, które w danym
+                    momencie nie przeglądają aktywnie portali
+                    nieruchomości, ale mogą zainteresować się konkretną
+                    ofertą, gdy zobaczą ją w swoich mediach
+                    społecznościowych.
+                </p>
+
+                <p>
+                    Dzisiaj dobra nieruchomość potrzebuje nie tylko
+                    dobrego ogłoszenia.
+                </p>
+
+                <p>
+                    <strong>Potrzebuje dobrego marketingu.</strong>
+                </p>
+
+                <h3>Nie czekam biernie na kupującego</h3>
+
+                <p>
+                    Po publikacji oferty moja praca się nie kończy.
+                </p>
+
+                <p>
+                    Obserwuję zainteresowanie nieruchomością, reakcję
+                    rynku oraz zapytania potencjalnych klientów.
+                    Jeżeli jest taka potrzeba, modyfikuję sposób
+                    prezentacji lub działania marketingowe.
+                </p>
+
+                <p>
+                    Łączę portale nieruchomości, media społecznościowe,
+                    zdjęcia, filmy, materiały z drona oraz bezpośredni
+                    kontakt z klientami.
+                </p>
+
+                <p>
+                    <strong>
+                        Nie czekam tylko na kupującego. Aktywnie pracuję
+                        nad tym, aby go znaleźć.
+                    </strong>
+                </p>
+
+                <h3>Od pierwszej rozmowy do przekazania kluczy</h3>
+
+                <p>
+                    Niezależnie od tego, czy szukasz nieruchomości,
+                    czy planujesz jej sprzedaż, zależy mi na tym,
+                    aby cały proces był możliwie przejrzysty i dobrze
+                    zorganizowany.
+                </p>
+
+                <p>
+                    <strong>Szukasz nieruchomości?</strong>
+                    Pomogę Ci znaleźć miejsce dopasowane do Twoich potrzeb.
+                </p>
+
+                <p>
+                    <strong>Sprzedajesz?</strong>
+                    Przygotuję nieruchomość, stworzę strategię sprzedaży,
+                    zajmę się jej promocją, dokumentacją i formalnościami
+                    oraz będę aktywnie pracował nad znalezieniem
+                    kupującego.
+                </p>
+
+                <div class="services-final">
+                    <h3>
+                        Broker 360 – nieruchomości z każdej perspektywy
+                    </h3>
+
+                    <p>
+                        <strong>
+                            Kupujesz. Sprzedajesz. Inwestujesz.
+                            Jestem z Tobą od pierwszej rozmowy
+                            do przekazania kluczy.
+                        </strong>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="o-mnie">
+            <div class="about-content">
+                <h2>O mnie</h2>
+
+                <p>
+                    Nazywam się Krzysztof Wierzchowiecki i zajmuję się
+                    pośrednictwem w obrocie nieruchomościami od 2017 roku.
+                </p>
+
+                <p>
+                    W 2018 roku w Warszawie uzyskałem licencję pośrednika
+                    w obrocie nieruchomościami FPPRN nr 22682.
+                    Od tego czasu stale rozwijam swoją wiedzę i zdobywam
+                    doświadczenie, pomagając klientom w sprzedaży, zakupie
+                    oraz wynajmie nieruchomości.
+                </p>
+
+                <p>
+                    W swojej pracy stawiam przede wszystkim na bezpośredni
+                    kontakt z klientem. Zależy mi na tym, aby każda osoba,
+                    z którą współpracuję, czuła się wyjątkowo i otrzymała
+                    obsługę na najwyższym poziomie.
+                </p>
+
+                <p>
+                    Osobiście zajmuję się przygotowaniem nieruchomości,
+                    tworzeniem oferty, prezentacjami, marketingiem,
+                    negocjacjami oraz pomocą w dokumentacji i formalnościach.
+                    Towarzyszę klientom od pierwszej rozmowy aż do finalizacji
+                    transakcji i przekazania kluczy.
+                </p>
+
+                <p>
+                    Prowadzę Broker 360 Biuro Nieruchomości, ponieważ wierzę,
+                    że skuteczne pośrednictwo powinno łączyć znajomość rynku,
+                    nowoczesny marketing oraz indywidualne podejście do każdego
+                    klienta i każdej nieruchomości.
+                </p>
+            </div>
+        </section>
+
+        <section id="kontakt">
+            <h2>Porozmawiajmy o Twojej nieruchomości</h2>
+
+            <p>
+                Chcesz sprzedać, kupić lub wynająć nieruchomość?
+                Skontaktuj się ze mną telefonicznie lub napisz przez
+                formularz kontaktowy.
+            </p>
+
+            <p class="phone-number">
+                Telefon:
+                <a href="tel:+48724311737">
+                    +48 724 311 737
+                </a>
+            </p>
+
+            <a
+                class="contact-button"
+                href="{% url 'contact:form' %}"
+            >
+                Przejdź do formularza
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Broker 360 – Biuro Nieruchomości</p>
+
+        <p class="footer-privacy-link">
+            <a href="{% url 'contact:privacy_policy' %}">
+                Polityka prywatności
+            </a>
+        </p>
+    </footer>
+</body>
+</html>

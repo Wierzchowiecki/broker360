@@ -1,0 +1,194 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {{ property.title }} – Broker 360
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'properties/css/style.css' %}"
+    >
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a class="logo-link" href="/">
+                <img
+                    class="logo"
+                    src="{% static 'properties/images/logo-broker360.jpg' %}"
+                    alt="Broker 360 – Biuro Nieruchomości"
+                >
+            </a>
+
+            <a href="/">Strona główna</a>
+            <a href="/#oferty">Oferty</a>
+            <a href="/#uslugi">Usługi</a>
+            <a href="/#o-mnie">O mnie</a>
+            <a href="{% url 'contact:form' %}">Kontakt</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="property-detail">
+            <a class="back-link" href="/#oferty">
+                ← Wróć do ofert
+            </a>
+
+            <div class="property-detail-header">
+                <div>
+                    <p class="property-offer-type">
+                        {{ property.get_offer_type_display }}
+                    </p>
+
+                    <h1>{{ property.title }}</h1>
+
+                    <p class="property-location">
+                        {{ property.city }}
+
+                        {% if property.district %}
+                            – {{ property.district }}
+                        {% endif %}
+                    </p>
+                </div>
+
+                <div class="property-price">
+                    {{ property.price|floatformat:0 }} zł
+                </div>
+            </div>
+
+            {% if main_image %}
+                <div class="property-main-image">
+                    <img
+                        src="{{ main_image.image.url }}"
+                        alt="{% if main_image.description %}{{ main_image.description }}{% else %}{{ property.title }}{% endif %}"
+                    >
+                </div>
+            {% else %}
+                <div class="property-no-image">
+                    <p>Zdjęcia oferty pojawią się wkrótce.</p>
+                </div>
+            {% endif %}
+
+            {% if images %}
+                <div class="property-gallery">
+                    {% for property_image in images %}
+                        <a
+                            href="{{ property_image.image.url }}"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <img
+                                src="{{ property_image.image.url }}"
+                                alt="{% if property_image.description %}{{ property_image.description }}{% else %}{{ property.title }}{% endif %}"
+                            >
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="property-information">
+                <div class="property-parameters">
+                    <h2>Najważniejsze informacje</h2>
+
+                    <dl>
+                        <div>
+                            <dt>Rodzaj nieruchomości</dt>
+                            <dd>
+                                {{ property.get_property_type_display }}
+                            </dd>
+                        </div>
+
+                        <div>
+                            <dt>Rodzaj oferty</dt>
+                            <dd>
+                                {{ property.get_offer_type_display }}
+                            </dd>
+                        </div>
+
+                        <div>
+                            <dt>Powierzchnia</dt>
+                            <dd>
+                                {{ property.area|floatformat:-2 }} m²
+                            </dd>
+                        </div>
+
+                        {% if property.rooms %}
+                            <div>
+                                <dt>Liczba pokoi</dt>
+                                <dd>{{ property.rooms }}</dd>
+                            </div>
+                        {% endif %}
+
+                        <div>
+                            <dt>Miasto</dt>
+                            <dd>{{ property.city }}</dd>
+                        </div>
+
+                        {% if property.district %}
+                            <div>
+                                <dt>Dzielnica</dt>
+                                <dd>{{ property.district }}</dd>
+                            </div>
+                        {% endif %}
+
+                        <div>
+                            <dt>Status</dt>
+                            <dd>{{ property.get_status_display }}</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <aside class="property-contact-box">
+                    <h2>Zapytaj o tę nieruchomość</h2>
+
+                    <p>
+                        Chcesz poznać szczegóły lub umówić prezentację?
+                        Skontaktuj się ze mną.
+                    </p>
+
+                    <a
+                        class="property-phone-button"
+                        href="tel:+48724311737"
+                    >
+                        +48 724 311 737
+                    </a>
+
+                    <a
+                        class="contact-button"
+                        href="{% url 'contact:form' %}"
+                    >
+                        Napisz przez formularz
+                    </a>
+                </aside>
+            </div>
+
+            <div class="property-description">
+                <h2>Opis nieruchomości</h2>
+
+                {{ property.description|linebreaks }}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 Broker 360 – Biuro Nieruchomości</p>
+
+        <p class="footer-privacy-link">
+            <a href="{% url 'contact:privacy_policy' %}">
+                Polityka prywatności
+            </a>
+        </p>
+    </footer>
+</body>
+</html>
