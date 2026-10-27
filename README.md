@@ -4,6 +4,14 @@ Profesjonalna strona internetowa biura nieruchomości Broker 360, przygotowana w
 
 Projekt umożliwia prezentowanie ofert nieruchomości, zarządzanie nimi za pomocą panelu administracyjnego oraz odbieranie wiadomości przesyłanych przez formularz kontaktowy.
 
+## Działająca strona
+
+Projekt jest publicznie dostępny pod adresem:
+
+### [Otwórz stronę Broker 360](https://broker360poznan.pythonanywhere.com/)
+
+Panel administracyjny umożliwia zarządzanie ofertami, zdjęciami nieruchomości oraz wiadomościami z formularza kontaktowego.
+
 ## Najważniejsze funkcje
 
 - strona główna biura nieruchomości,
