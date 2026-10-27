@@ -144,6 +144,7 @@ USE_TZ = True
 # Pliki statyczne: CSS, JavaScript i obrazy
 
 STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 
