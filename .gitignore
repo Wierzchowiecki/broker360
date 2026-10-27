@@ -26,3 +26,6 @@ staticfiles/
 # Pliki systemu Windows
 Thumbs.db
 Desktop.ini
+
+# Archiwum zdjęć ofert
+media.zip

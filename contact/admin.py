@@ -13,6 +13,10 @@ class ContactMessageAdmin(admin.ModelAdmin):
         "is_read",
     )
 
+    list_editable = (
+        "is_read",
+    )
+
     list_filter = (
         "is_read",
         "created_at",
