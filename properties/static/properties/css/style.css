@@ -1103,3 +1103,279 @@ main > section.property-detail p {
         padding: 18px;
     }
 }
+/* Galeria zdjęć oferty */
+
+.gallery-main-button {
+    position: relative;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+}
+
+.gallery-main-button img {
+    transition: transform 0.3s ease;
+}
+
+.gallery-main-button:hover img {
+    transform: scale(1.02);
+}
+
+.gallery-open-label {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    padding: 9px 14px;
+    color: #172a40;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: rgb(242 185 40 / 92%);
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 35%);
+}
+
+.gallery-thumbnail {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    display: block;
+    cursor: pointer;
+    background-color: #172a40;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.gallery-thumbnail:hover,
+.gallery-thumbnail:focus-visible {
+    border-color: #f2b928;
+    transform: translateY(-3px);
+}
+
+.gallery-thumbnail img {
+    display: block;
+    width: 100%;
+    height: clamp(125px, 17vw, 180px);
+    min-height: 125px;
+    max-height: 180px;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+/* Duży podgląd zdjęć */
+
+.gallery-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    width: 100%;
+    height: 100%;
+    padding: 70px 90px 45px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0 0 0 / 94%);
+}
+
+.gallery-lightbox.is-open {
+    display: flex;
+}
+
+body.gallery-is-open {
+    overflow: hidden;
+}
+
+.gallery-lightbox-content {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-lightbox-image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: calc(100vh - 150px);
+    object-fit: contain;
+    object-position: center;
+    border-radius: 4px;
+    box-shadow: 0 8px 30px rgb(0 0 0 / 60%);
+}
+
+.gallery-counter {
+    margin-top: 15px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.gallery-close,
+.gallery-previous,
+.gallery-next {
+    position: fixed;
+    z-index: 3010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    cursor: pointer;
+    background-color: rgb(23 42 64 / 85%);
+    border: 2px solid #f2b928;
+    border-radius: 50%;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.gallery-close:hover,
+.gallery-previous:hover,
+.gallery-next:hover,
+.gallery-close:focus-visible,
+.gallery-previous:focus-visible,
+.gallery-next:focus-visible {
+    color: #172a40;
+    background-color: #f2b928;
+}
+
+.gallery-close {
+    top: 22px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    font-size: 34px;
+    line-height: 1;
+}
+
+.gallery-previous,
+.gallery-next {
+    top: 50%;
+    width: 56px;
+    height: 56px;
+    font-size: 32px;
+    transform: translateY(-50%);
+}
+
+.gallery-previous:hover,
+.gallery-next:hover,
+.gallery-previous:focus-visible,
+.gallery-next:focus-visible {
+    transform: translateY(-50%) scale(1.08);
+}
+
+.gallery-previous {
+    left: 22px;
+}
+
+.gallery-next {
+    right: 22px;
+}
+
+
+/* Galeria na telefonie */
+
+@media (max-width: 800px) {
+    .gallery-open-label {
+        right: 12px;
+        bottom: 12px;
+        padding: 7px 10px;
+        font-size: 12px;
+    }
+
+    .gallery-thumbnail img {
+        height: clamp(110px, 34vw, 160px);
+        min-height: 110px;
+        max-height: 160px;
+    }
+
+    .gallery-lightbox {
+        padding: 65px 52px 35px;
+    }
+
+    .gallery-lightbox-image {
+        max-height: calc(100vh - 130px);
+    }
+
+    .gallery-close {
+        top: 14px;
+        right: 14px;
+        width: 44px;
+        height: 44px;
+        font-size: 30px;
+    }
+
+    .gallery-previous,
+    .gallery-next {
+        width: 44px;
+        height: 44px;
+        font-size: 25px;
+    }
+
+    .gallery-previous {
+        left: 6px;
+    }
+
+    .gallery-next {
+        right: 6px;
+    }
+}
+
+
+/* Galeria na bardzo małych telefonach */
+
+@media (max-width: 480px) {
+    .gallery-thumbnail img {
+        height: clamp(180px, 58vw, 260px);
+        min-height: 180px;
+        max-height: 260px;
+    }
+
+    .gallery-lightbox {
+        padding-right: 48px;
+        padding-left: 48px;
+    }
+
+    .gallery-counter {
+        font-size: 14px;
+    }
+}
+/* Kolejność informacji o ofercie na telefonie */
+
+@media (max-width: 800px) {
+    main > section.property-detail {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .property-information {
+        display: contents;
+    }
+
+    .property-parameters {
+        order: 1;
+        margin-top: 40px;
+    }
+
+    .property-description {
+        order: 2;
+        margin-top: 25px;
+    }
+
+    .property-contact-box {
+        order: 3;
+        width: 100%;
+        margin-top: 25px;
+    }
+}

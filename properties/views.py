@@ -27,21 +27,47 @@ def property_detail(request, slug):
         status="active",
     )
 
-    images = property_object.images.all()
+    gallery_images = list(
+        property_object.images.all()
+    )
 
-    main_image = images.filter(
-        is_main=True,
-    ).first()
+    main_image = next(
+        (
+            image
+            for image in gallery_images
+            if image.is_main
+        ),
+        None,
+    )
 
-    if main_image is None:
-        main_image = images.first()
+    if main_image is None and gallery_images:
+        main_image = gallery_images[0]
+
+    if main_image is not None:
+        gallery_images = [
+            main_image,
+            *[
+                image
+                for image in gallery_images
+                if image.pk != main_image.pk
+            ],
+        ]
+
+        additional_images = [
+            image
+            for image in gallery_images
+            if image.pk != main_image.pk
+        ]
+    else:
+        additional_images = []
 
     return render(
         request,
         "properties/property_detail.html",
         {
             "property": property_object,
-            "images": images,
             "main_image": main_image,
+            "gallery_images": gallery_images,
+            "additional_images": additional_images,
         },
     )

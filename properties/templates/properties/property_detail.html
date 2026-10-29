@@ -18,6 +18,11 @@
         rel="stylesheet"
         href="{% static 'properties/css/style.css' %}"
     >
+
+    <script
+        src="{% static 'properties/js/gallery.js' %}"
+        defer
+    ></script>
 </head>
 
 <body id="top">
@@ -69,10 +74,23 @@
 
             {% if main_image %}
                 <div class="property-main-image">
-                    <img
-                        src="{{ main_image.image.url }}"
-                        alt="{% if main_image.description %}{{ main_image.description }}{% else %}{{ property.title }}{% endif %}"
+                    <button
+                        class="gallery-item gallery-main-button"
+                        type="button"
+                        data-gallery-index="0"
+                        data-gallery-src="{{ main_image.image.url }}"
+                        data-gallery-alt="{% if main_image.description %}{{ main_image.description }}{% else %}{{ property.title }}{% endif %}"
+                        aria-label="Otwórz galerię zdjęć"
                     >
+                        <img
+                            src="{{ main_image.image.url }}"
+                            alt="{% if main_image.description %}{{ main_image.description }}{% else %}{{ property.title }}{% endif %}"
+                        >
+
+                        <span class="gallery-open-label">
+                            Kliknij, aby otworzyć galerię
+                        </span>
+                    </button>
                 </div>
             {% else %}
                 <div class="property-no-image">
@@ -80,19 +98,22 @@
                 </div>
             {% endif %}
 
-            {% if images %}
+            {% if additional_images %}
                 <div class="property-gallery">
-                    {% for property_image in images %}
-                        <a
-                            href="{{ property_image.image.url }}"
-                            target="_blank"
-                            rel="noopener"
+                    {% for property_image in additional_images %}
+                        <button
+                            class="gallery-item gallery-thumbnail"
+                            type="button"
+                            data-gallery-index="{{ forloop.counter }}"
+                            data-gallery-src="{{ property_image.image.url }}"
+                            data-gallery-alt="{% if property_image.description %}{{ property_image.description }}{% else %}{{ property.title }}{% endif %}"
+                            aria-label="Otwórz zdjęcie {{ forloop.counter|add:1 }}"
                         >
                             <img
                                 src="{{ property_image.image.url }}"
                                 alt="{% if property_image.description %}{{ property_image.description }}{% else %}{{ property.title }}{% endif %}"
                             >
-                        </a>
+                        </button>
                     {% endfor %}
                 </div>
             {% endif %}
@@ -191,13 +212,59 @@
         </p>
     </footer>
 
-<a
-    class="back-to-top"
-    href="#top"
-    aria-label="Wróć na górę strony"
-    title="Wróć na górę strony"
->
-    ↑
-</a>
+    <a
+        class="back-to-top"
+        href="#top"
+        aria-label="Wróć na górę strony"
+        title="Wróć na górę strony"
+    >
+        ↑
+    </a>
+
+    <div
+        class="gallery-lightbox"
+        id="gallery-lightbox"
+        aria-hidden="true"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Galeria zdjęć nieruchomości"
+    >
+        <button
+            class="gallery-close"
+            type="button"
+            aria-label="Zamknij galerię"
+            title="Zamknij galerię"
+        >
+            ×
+        </button>
+
+        <button
+            class="gallery-previous"
+            type="button"
+            aria-label="Poprzednie zdjęcie"
+            title="Poprzednie zdjęcie"
+        >
+            ←
+        </button>
+
+        <div class="gallery-lightbox-content">
+            <img
+                class="gallery-lightbox-image"
+                src=""
+                alt=""
+            >
+
+            <p class="gallery-counter"></p>
+        </div>
+
+        <button
+            class="gallery-next"
+            type="button"
+            aria-label="Następne zdjęcie"
+            title="Następne zdjęcie"
+        >
+            →
+        </button>
+    </div>
 </body>
 </html>
